@@ -1,35 +1,42 @@
-import "./App.css";
-import "./bootstraps_themes/bootstrap-flatly.min.css";
-import NavigationBar from "./components/navbar/NavigationBar";
-import { Container, Button, Row, Col } from "react-bootstrap";
-import RandomFive from "./components/RandomFive/RandomFive";
-import { useState } from "react";
+import './App.css';
+import './bootstraps_themes/bootstrap-flatly.min.css';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GlobalContext } from './Contexts/GlobalContext';
+
+//Component Imports
+import NavigationBar from './components/navbar/NavigationBar';
+import RandomFiveWrapper from './components/RandomFive/RandomFiveWrapper';
+import LogIn from './components/LogInAndOut/LogIn';
+import { Container } from 'react-bootstrap';
 
 function App() {
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
-  const [areRandomFiveVisible, setAreRandomFiveVisible] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const { REACT_APP_API_URL } = process.env;
+  const BaseURL = `${REACT_APP_API_URL}api/dishes/`;
 
-  const renderButton = () => {
-    return (
-      <Row className="text-center d-flex justify-content-center align-items-center" style={{height: '60vh'}}>
-        <Col xs={12} md={3}>
-          <Button variant="info" onClick={renderFive}>Get Five Random Recipes</Button>
-        </Col>
-      </Row>
-    );
-  };
-
-  const renderFive = () => {
-    setIsButtonVisible(false);
-    setAreRandomFiveVisible(true);
-  }
   return (
-    <div className="App bg-primary vh-100">
-      <NavigationBar />
-      <Container>
-        {isButtonVisible && renderButton()}
-        {areRandomFiveVisible && <RandomFive/>}
-      </Container>
+    <div className='App bg-primary vh-100'>
+      <Router>
+        <GlobalContext.Provider
+          value={{
+            isLoggedIn,
+            setIsLoggedIn,
+            currentUser,
+            setCurrentUser,
+            BaseURL,
+          }}
+        >
+          <NavigationBar />
+          <Container>
+            <Routes>
+              <Route path='/' element={<RandomFiveWrapper />} />
+              <Route path='/login' element={<LogIn />} />
+            </Routes>
+          </Container>
+        </GlobalContext.Provider>
+      </Router>
     </div>
   );
 }
