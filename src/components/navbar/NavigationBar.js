@@ -1,41 +1,67 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../../Contexts/GlobalContext';
 import { Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
+import { Container, Navbar, Button, Nav, Row, Col } from 'react-bootstrap';
+import LoggedInLinks from './LoggedInLinks';
 
 function NavigationBar() {
-  const { isLoggedIn, currentUser } = useContext(GlobalContext);
+	const { isLoggedIn, currentUser } = useContext(GlobalContext);
 
-  const renderLogins = () => {
-    if (isLoggedIn) {
-      return (
-        <Navbar.Text>
-          Signed in as: <strong>{currentUser}</strong>
-        </Navbar.Text>
-      );
-    }
-    return (
-      <Button variant='success' as={Link} to='/login'>
-        Sign In
-      </Button>
-    );
-  };
+	const renderLogins = () => {
+		if (isLoggedIn) {
+			return (
+				<Row>
+					<Col xs={12}>
+						<Navbar.Text>
+							Welcome <strong>{currentUser}</strong>!
+						</Navbar.Text>
+					</Col>
+					<Col xs={12}>
+						<Navbar.Text>
+							<Button className='' variant='danger' as={Link} to='/login'>
+								Sign Out
+							</Button>
+						</Navbar.Text>
+					</Col>
+				</Row>
+			);
+		}
+		return (
+			<Navbar.Text>
+				<Button variant='success' as={Link} to='/login'>
+					Sign In
+				</Button>
+			</Navbar.Text>
+		);
+	};
 
-  return (
-    <Navbar bg='dark' variant='dark'>
-      <Container>
-        <Navbar.Brand as={Link} to='/'>
-          Weekly Meals
-        </Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className='justify-content-end'>
-          <Navbar.Text>{renderLogins()}</Navbar.Text>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+	return (
+		<Navbar collapseOnSelect bg='dark' variant='dark' expand='sm'>
+			<Container>
+				<Navbar.Brand as={Link} to='/'>
+					Weekly Meals
+				</Navbar.Brand>
+				<Navbar.Toggle aria-controls='main-navbar' />
+				<Navbar.Collapse id='main-navbar'>
+					<Nav className='me-auto'>
+						<Nav.Link as={Link} to='/'>
+							Home
+						</Nav.Link>
+						{isLoggedIn && <LoggedInLinks />}
+						{isLoggedIn ? (
+							<Navbar.Text>
+								{' '}
+								Welcome <strong>{currentUser}</strong>!
+							</Navbar.Text>
+						) : (
+							null
+						)}
+						{renderLogins()}
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
+	);
 }
 
 export default NavigationBar;
