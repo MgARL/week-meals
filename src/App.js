@@ -31,7 +31,7 @@ function App() {
 
 	return (
 		<div className='App bg-primary vh-100'>
-			<Router>
+			<Router basename={process.env.PUBLIC_URL}>
 				<GlobalContext.Provider
 					value={{
 						isLoggedIn,
