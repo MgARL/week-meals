@@ -11,6 +11,7 @@ import Home from './components/Home/Home';
 import LogIn from './components/LogInAndOut/LogIn';
 import { Container } from 'react-bootstrap';
 import RandomFive from './components/RandomFive/RandomFive';
+import FullList from './components/FullList/FullList';
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,9 +45,10 @@ function App() {
 					<NavigationBar />
 					<Container>
 						<Routes>
-              <Route path='/' element={<Home />} />
+							<Route path='/' element={<Home />} />
 							<Route path='/RandomFive' element={<RandomFive />} />
 							<Route path='/login' element={<LogIn />} />
+							<Route path='/fullList' element={<FullList/>} />
 						</Routes>
 					</Container>
 				</GlobalContext.Provider>

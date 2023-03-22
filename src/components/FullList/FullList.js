@@ -1,27 +1,32 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './random-five.css';
+import './full-list.css';
 import { Table, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { GlobalContext } from '../../Contexts/GlobalContext';
 import DownloadExcel from '../../helper_hooks/DownloadExcel';
 
-function RandomFive() {
+function FullList() {
   const { BaseURL } = useContext(GlobalContext);
-  const [fiveMeals, setFiveMeals] = useState([]);
+  const [allMeals, setAllMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    getRandomFive();
+    getFullList();
   }, []);
 
   const getNewList = async () => {
     setIsLoading(true);
-    await getRandomFive();
+    await getFullList();
   };
-  const getRandomFive = async () => {
+  const getFullList = async () => {
     try {
-      const res = await fetch(`${BaseURL}five`);
+      const res = await fetch(`${BaseURL}all`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      console.log(res)
       const data = await res.json();
       setIsLoading(false);
-      setFiveMeals(data);
+      setAllMeals(data);
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +50,7 @@ function RandomFive() {
               </tr>
             </thead>
             <tbody>
-              {fiveMeals.map((m, i) => {
+              {allMeals.map((m, i) => {
                 return (
                   <tr key={i}>
                     <th>{i + 1}</th>
@@ -58,13 +63,8 @@ function RandomFive() {
           </Table>
         </Row>
         <Row className='d-flex justify-content-center'>
-          <Col xs={12} sm={5} md={3}>
-            <Button variant='info' onClick={getNewList}>
-              New List
-            </Button>
-          </Col>
-          <Col xs={12} sm={5} md={3}>
-            <Button variant='success' onClick={() => DownloadExcel(fiveMeals)}>
+          <Col xs={12}>
+            <Button variant='success' onClick={() => DownloadExcel(allMeals)}>
               Download as Excel
             </Button>
           </Col>
@@ -83,4 +83,4 @@ function RandomFive() {
   return <>{isLoading ? handleLoading() : renderTable()}</>;
 }
 
-export default RandomFive;
+export default FullList;

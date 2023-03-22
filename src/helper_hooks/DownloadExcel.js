@@ -1,7 +1,7 @@
 import * as XLXS from 'xlsx/xlsx.mjs';
 
 const DownloadExcel = () => {
-  const table = document.getElementById('RFive');
+  const table = document.getElementById('MealList');
   const workbook = XLXS.utils.book_new();
   const worksheet = XLXS.utils.table_to_sheet(table);
   console.log(worksheet);

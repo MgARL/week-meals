@@ -26,7 +26,7 @@ function LogIn() {
 		setLoading(true);
 		//fetch request to get token and user name.
 		try {
-			const res = await fetch(`${BaseURL}auth`, {
+			const res = await fetch(`${BaseURL}auth/login`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(credentials),
