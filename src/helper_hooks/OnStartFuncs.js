@@ -4,18 +4,18 @@ const verifyLoggedIn = async (BaseURL) => {
 	try {
 		const token = localStorage.getItem('token');
 		if (token) {
-			const res = await fetch(`${BaseURL}authorize`, {
+			const res = await fetch(`${BaseURL}auth`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			});
 			if (res.ok) {
 				const data = await res.json();
-				return getUserName(data.user.email);
+				return getUserName(data.email);
 			}
 		}	
 	} catch (error) {
-		console.error(error);
+		console.log(error);
 	}
 };
 

@@ -12,10 +12,6 @@ function FullList() {
     getFullList();
   }, []);
 
-  const getNewList = async () => {
-    setIsLoading(true);
-    await getFullList();
-  };
   const getFullList = async () => {
     try {
       const res = await fetch(`${BaseURL}all`, {
@@ -23,10 +19,26 @@ function FullList() {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      console.log(res)
       const data = await res.json();
       setIsLoading(false);
       setAllMeals(data);
+    } catch (error) {
+      console.error(error);
+    };  
+  };
+  const deleteMeal = async (e) => {
+    try {
+      const res = await fetch(`${BaseURL}${e.target.id}`, {
+        method: 'delete',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await res.json();
+      console.log(data);
+      if(data = 200){
+        console.log("delete successful");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -47,22 +59,38 @@ function FullList() {
                 <th colSpan={6}>
                   <h4>Ingredients</h4>
                 </th>
+                <th>
+                  <h4>Edit</h4>
+                </th>
+                <th>
+                    <h4>Delete</h4>
+                </th>
               </tr>
             </thead>
             <tbody>
               {allMeals.map((m, i) => {
                 return (
                   <tr key={i}>
-                    <th>{i + 1}</th>
-                    <th colSpan={3}>{m.dishName}</th>
-                    <th colSpan={6}>{m.ingredients}</th>
+                    <td className='align-middle'>
+                      <div>
+                        {i + 1}
+                      </div>
+                    </td>
+                    <td colSpan={3}>{m.dishName}</td>
+                    <td colSpan={6}>{m.ingredients}</td>
+                    <td>
+                      <Button variant='warning'>Edit</Button>
+                    </td>
+                    <td>
+                      <Button id={i} onClick={(e) => deleteMeal(e)} variant='danger'>Delete</Button>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
         </Row>
-        <Row className='d-flex justify-content-center'>
+        <Row className='d-flex justify-content-center pb-3'>
           <Col xs={12}>
             <Button variant='success' onClick={() => DownloadExcel(allMeals)}>
               Download as Excel

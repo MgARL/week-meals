@@ -27,11 +27,12 @@ function App() {
 		const userName = await verifyLoggedIn(BaseURL);
 		if (userName) {
 			setCurrentUser(userName);
+			setIsLoggedIn(true);
 		}
 	};
 
 	return (
-		<div className='App bg-primary vh-100'>
+		<main className='App bg-primary min-height-100'>
 			<Router basename={process.env.PUBLIC_URL}>
 				<GlobalContext.Provider
 					value={{
@@ -43,7 +44,7 @@ function App() {
 					}}
 				>
 					<NavigationBar />
-					<Container>
+					<Container className="bg-primary">
 						<Routes>
 							<Route path='/' element={<Home />} />
 							<Route path='/RandomFive' element={<RandomFive />} />
@@ -53,7 +54,7 @@ function App() {
 					</Container>
 				</GlobalContext.Provider>
 			</Router>
-		</div>
+		</main>
 	);
 }
 

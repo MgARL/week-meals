@@ -1,9 +1,16 @@
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Nav, Button, Row, Col } from 'react-bootstrap';
+import { GlobalContext } from '../../Contexts/GlobalContext';
 
 function LoggedInNav({ currentUser }) {
-    const LogOut = (e) => {
-        console.log('logging out')
+    const { setIsLoggedIn, setCurrentUser } = useContext(GlobalContext);
+
+    const LogOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        setCurrentUser(null);
+        setIsLoggedIn(false);
     }
     return (
         <>
@@ -18,7 +25,7 @@ function LoggedInNav({ currentUser }) {
                     </Row>
                     <Row>
                         <Col xs={12}>
-                            <Button onClick={() => {LogOut()}} variant="primary">SignOut</Button>
+                            <Button onClick={() => { LogOut() }} variant="primary">SignOut</Button>
                         </Col>
                     </Row>
                 </div>

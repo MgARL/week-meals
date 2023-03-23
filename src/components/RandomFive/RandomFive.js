@@ -48,9 +48,9 @@ function RandomFive() {
               {fiveMeals.map((m, i) => {
                 return (
                   <tr key={i}>
-                    <th>{i + 1}</th>
-                    <th colSpan={3}>{m.dishName}</th>
-                    <th colSpan={6}>{m.ingredients}</th>
+                    <td className='align-middle'>{i + 1}</td>
+                    <td colSpan={3}>{m.dishName}</td>
+                    <td colSpan={6}>{m.ingredients}</td>
                   </tr>
                 );
               })}

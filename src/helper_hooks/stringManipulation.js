@@ -1,5 +1,7 @@
 const getUserName = (email) => {
-	return email.split('@')[0];
+	const rtn = email.split('@')[0];
+	console.log(rtn)
+	return rtn;
 };
 
 export { getUserName };
