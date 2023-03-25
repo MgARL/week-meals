@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './full-list.css';
 import { Table, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { GlobalContext } from '../../Contexts/GlobalContext';
 import DownloadExcel from '../../helper_hooks/DownloadExcel';
 
 function FullList() {
-  const { BaseURL } = useContext(GlobalContext);
+  const { BaseURL, setSelectedMeal } = useContext(GlobalContext);
   const [allMeals, setAllMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
   useEffect(() => {
     getFullList();
   }, []);
@@ -26,6 +29,12 @@ function FullList() {
       console.error(error);
     };  
   };
+
+  const handleEditButton = (e) => {
+    setSelectedMeal(allMeals[e.target.id]);
+    navigate('/fullList/edit')
+  };
+
   const deleteMeal = async (e) => {
     try {
       const res = await fetch(`${BaseURL}${e.target.id}`, {
@@ -35,12 +44,13 @@ function FullList() {
         }
       });
       const data = await res.json();
-      console.log(data);
-      if(data = 200){
+      if(data === 200){
         console.log("delete successful");
+        //Will show modal successful
       }
     } catch (error) {
       console.error(error);
+      //will show Error message
     }
   };
   const renderTable = () => {
@@ -79,7 +89,7 @@ function FullList() {
                     <td colSpan={3}>{m.dishName}</td>
                     <td colSpan={6}>{m.ingredients}</td>
                     <td>
-                      <Button variant='warning'>Edit</Button>
+                      <Button id={i} onClick={(e) => handleEditButton(e)} variant='warning'>Edit</Button>
                     </td>
                     <td>
                       <Button id={i} onClick={(e) => deleteMeal(e)} variant='danger'>Delete</Button>

@@ -12,10 +12,12 @@ import LogIn from './components/LogInAndOut/LogIn';
 import { Container } from 'react-bootstrap';
 import RandomFive from './components/RandomFive/RandomFive';
 import FullList from './components/FullList/FullList';
+import EditMeal from './components/EditMeal/EditMeal';
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [currentUser, setCurrentUser] = useState(null);
+	const [selectedMeal, setSelectedMeal] = useState(null);
 	const { REACT_APP_API_URL } = process.env;
 	const BaseURL = `${REACT_APP_API_URL}api/dishes/`;
 
@@ -41,6 +43,8 @@ function App() {
 						currentUser,
 						setCurrentUser,
 						BaseURL,
+						selectedMeal,
+						setSelectedMeal
 					}}
 				>
 					<NavigationBar />
@@ -50,6 +54,7 @@ function App() {
 							<Route path='/RandomFive' element={<RandomFive />} />
 							<Route path='/login' element={<LogIn />} />
 							<Route path='/fullList' element={<FullList/>} />
+							<Route path='/fullList/edit' element={<EditMeal/>}/>
 						</Routes>
 					</Container>
 				</GlobalContext.Provider>
