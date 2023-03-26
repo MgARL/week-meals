@@ -1,5 +1,6 @@
 import { getUserName } from './stringManipulation';
 
+
 const verifyLoggedIn = async (BaseURL) => {
 	try {
 		const token = localStorage.getItem('token');
@@ -13,7 +14,7 @@ const verifyLoggedIn = async (BaseURL) => {
 				const data = await res.json();
 				return getUserName(data.email);
 			}
-		}	
+		}
 	} catch (error) {
 		console.log(error);
 	}

@@ -42,6 +42,9 @@ function RandomFive() {
                 <th colSpan={6}>
                   <h4>Ingredients</h4>
                 </th>
+                <th colSpan={3}>
+                  <h4>Recipe</h4>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -51,6 +54,11 @@ function RandomFive() {
                     <td className='align-middle'>{i + 1}</td>
                     <td colSpan={3}>{m.dishName}</td>
                     <td colSpan={6}>{m.ingredients}</td>
+                    <td colSpan={3}>
+                      {m.link
+                      ? <a href={`${m.link}`} target='_blank'>Go to Recipe</a>
+                      : ''}
+                    </td>
                   </tr>
                 );
               })}

@@ -12,6 +12,7 @@ import LogIn from './components/LogInAndOut/LogIn';
 import { Container } from 'react-bootstrap';
 import RandomFive from './components/RandomFive/RandomFive';
 import FullList from './components/FullList/FullList';
+import AddMeal from './components/AddMeal/AddMeal'
 import EditMeal from './components/EditMeal/EditMeal';
 
 function App() {
@@ -22,10 +23,10 @@ function App() {
 	const BaseURL = `${REACT_APP_API_URL}api/dishes/`;
 
 	useEffect(() => {
-		findUser();
+		validateUser();
 	}, []);
 
-	const findUser = async () => {
+	const validateUser = async () => {
 		const userName = await verifyLoggedIn(BaseURL);
 		if (userName) {
 			setCurrentUser(userName);
@@ -53,8 +54,9 @@ function App() {
 							<Route path='/' element={<Home />} />
 							<Route path='/RandomFive' element={<RandomFive />} />
 							<Route path='/login' element={<LogIn />} />
-							<Route path='/fullList' element={<FullList/>} />
-							<Route path='/fullList/edit' element={<EditMeal/>}/>
+							<Route path='/fullList' element={<FullList />} />
+							<Route path='/addmeal' element={<AddMeal />} />
+							<Route path='/fullList/edit/:id' element={<EditMeal />}/>
 						</Routes>
 					</Container>
 				</GlobalContext.Provider>
